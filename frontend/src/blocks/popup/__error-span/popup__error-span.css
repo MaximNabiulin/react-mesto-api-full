@@ -1,0 +1,14 @@
+.popup__error-span {
+  min-height: 30px;
+  margin: 5px 0 0;
+}
+
+.popup__error-span:last-of-type {
+  min-height: 48px;
+}
+
+@media screen and (max-width: 425px) {
+  .popup__error-span:last-of-type {
+    min-height: 45px;
+  }
+}

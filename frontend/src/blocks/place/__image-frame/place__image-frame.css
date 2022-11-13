@@ -1,0 +1,9 @@
+.place__image-frame {
+  align-items: center;
+  overflow: hidden;
+  /* height: 282px; */
+  height: 0;
+  padding-bottom: 100%;
+  border-radius: 10px 10px 0px 0px;
+  position: relative;
+}

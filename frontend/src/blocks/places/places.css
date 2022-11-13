@@ -1,0 +1,19 @@
+.places {
+  margin: 0 auto;
+  padding: 50px 0 0;
+  max-width: 880px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(282px, 1fr));
+  gap: 20px 17px;
+  align-self: center;
+  box-sizing: border-box;
+}
+
+@media screen and (max-width: 1079px) {
+  .places {
+    padding: 36px 0 0;
+    width: calc(100vw - 19px*2);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(282px, 1fr));
+  }
+}

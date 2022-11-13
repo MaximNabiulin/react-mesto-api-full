@@ -1,0 +1,15 @@
+.popup__image-container {
+  display: grid;
+  grid-template-columns: fit-content(816px);
+  justify-content: center;
+  margin: 0;
+  position: relative;
+  z-index: 1;
+}
+
+@media screen and (max-width: 1279px) {
+  .popup__image-container {
+    margin: 0 40px;
+  }
+}
+
