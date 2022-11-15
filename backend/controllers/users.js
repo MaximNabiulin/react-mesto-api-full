@@ -23,7 +23,8 @@ module.exports.login = (req, res, next) => {
         .cookie('authorization', token, {
           maxAge: 3600000 * 24 * 7,
           httpOnly: true,
-          domain: 'http://localhost:3000',
+          // domain: 'http://localhost:3000',
+          domain: '.nomoredomains.icu',
           secure: true,
         })
         .send({ token, message: 'Успешная Авторизация!' });

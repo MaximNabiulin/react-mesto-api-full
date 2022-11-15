@@ -1,7 +1,6 @@
 module.exports.corsOptions = {
   origin: [
-    // 'https://praktikum.tk',
-    // 'http://praktikum.tk',
+    'http://mesto.nabiulin.nomoredomains.icu',
     'http://localhost:3000',
   ],
   // optionsSuccessStatus: 200,
