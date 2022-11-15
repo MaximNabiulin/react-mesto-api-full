@@ -1,6 +1,6 @@
 module.exports.corsOptions = {
   origin: [
-    'http://mesto.nabiulin.nomoredomains.icu',
+    'https://mesto.nabiulin.nomoredomains.icu',
     'http://localhost:3000',
   ],
   // optionsSuccessStatus: 200,
