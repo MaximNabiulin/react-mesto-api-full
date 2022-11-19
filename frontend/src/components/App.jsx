@@ -218,6 +218,7 @@ function App() {
 
   // Проверка наличия токена
   React.useEffect(() => {
+    // setIsLoading(true);
     function checkToken() {
       const jwt = localStorage.getItem('jwt');
       if (!jwt) return;
@@ -227,10 +228,14 @@ function App() {
           if (res) {
             setEmail(res.data.email);
             setIsLoggedIn({ loggedIn: true });
+            // setIsLoading(false);
             history.push('/');
           }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          // setIsLoading(false);
+          console.log(err)
+        });
     }
 
     checkToken();
