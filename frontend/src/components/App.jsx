@@ -1,5 +1,10 @@
 import React from 'react';
-import { Route, Switch, withRouter, useHistory } from 'react-router-dom';
+import {
+  Route,
+  Switch,
+  // withRouter,
+  useHistory
+} from 'react-router-dom';
 
 import registerOk from '../images/registration_ok.svg';
 import errorImg from '../images/auth_error.svg'
@@ -214,6 +219,7 @@ function App() {
   React.useEffect(() => {
     if (!isLoggedIn.loggedIn) return;
     history.push('/')
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoggedIn.loggedIn]);
 
   // Проверка наличия токена
@@ -239,6 +245,7 @@ function App() {
     }
 
     checkToken();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // Возвращаем разметку

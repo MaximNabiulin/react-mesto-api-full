@@ -52,7 +52,7 @@
 
 ## Бэкенд
 ------
-Бэкэнд - серверная часть проекта, написанная с помощью веб-фреймворка [Express](https://expressjs.com/ru/) для приложений [Node js](https://nodejs.org/en/) и взаимодействующую с базой данных [MongoDB](https://www.mongodb.com/).
+Бэкэнд - серверная часть проекта, написанная с помощью веб-фреймворка [Express](https://expressjs.com/ru/) для приложений [Node js](https://nodejs.org/en/) и взаимодействующую с базой данных [MongoDB](https://www.mongodb.com/). Расположена в дирректории `backend/`
 
 ### Использование
 ------

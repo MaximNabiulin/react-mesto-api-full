@@ -1,7 +1,9 @@
+import {baseUrl} from './auth.js';
+
 class Api {
   constructor(options) {
     this._baseUrl = options.baseUrl;
-    this._headers = options.headers;
+    // this._headers = options.headers;
   }
 
   _getResponseData(res) {
@@ -21,7 +23,8 @@ class Api {
 
   getUserInfoFromApi() {
     return this._request(`${this._baseUrl}/users/me`, {
-      headers: this._headers
+      credentials: 'include',
+      // headers: this._headers
     });
   }
 
@@ -30,7 +33,11 @@ class Api {
   editUserInfo(data) {
     return this._request(`${this._baseUrl}/users/me`, {
       method: 'PATCH',
-      headers: this._headers,
+      credentials: 'include',
+      // headers: this._headers,
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         name: data.name,
         about: data.about
@@ -43,7 +50,11 @@ class Api {
   editUserAvatar(data) {
     return this._request(`${this._baseUrl}/users/me/avatar`, {
       method: 'PATCH',
-      headers: this._headers,
+      credentials: 'include',
+      // headers: this._headers,
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         avatar: data.avatar,
       })
@@ -55,7 +66,8 @@ class Api {
 
   getInitialCards() {
     return this._request(`${this._baseUrl}/cards`, {
-      headers: this._headers
+      credentials: 'include',
+      // headers: this._headers
     });
   }
 
@@ -64,7 +76,11 @@ class Api {
   addCard(data) {
     return this._request(`${this._baseUrl}/cards`, {
       method: 'POST',
-      headers: this._headers,
+      credentials: 'include',
+      // headers: this._headers,
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(data)
     });
   }
@@ -74,7 +90,8 @@ class Api {
   deleteCard(cardId) {
     return this._request(`${this._baseUrl}/cards/${cardId}`, {
       method: 'DELETE',
-      headers: this._headers
+      credentials: 'include',
+      // headers: this._headers
     });
   }
 
@@ -83,25 +100,28 @@ class Api {
   setlike(cardId) {
     return this._request(`${this._baseUrl}/cards/${cardId}/likes`, {
       method: 'PUT',
-      headers: this._headers
+      credentials: 'include',
+      // headers: this._headers
     });
   }
 
   removeLike(cardId) {
     return this._request(`${this._baseUrl}/cards/${cardId}/likes`, {
       method: 'DELETE',
-      headers: this._headers
+      credentials: 'include',
+      // headers: this._headers
     });
   }
 
 }
 
 const api = new Api({
-  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-47',
-  headers: {
-    authorization: '9fd8f809-2b73-494b-91df-a3deb101ee29',
-    'Content-Type': 'application/json'
-  }
+  baseUrl: baseUrl,
+  // credentials: 'include',
+  // headers: {
+  //   authorization: '9fd8f809-2b73-494b-91df-a3deb101ee29',
+  //   'Content-Type': 'application/json'
+  // }
 });
 
 export default api;
