@@ -40,15 +40,17 @@ function Main(props) {
       </section>
 
       <section className="places">
-        {cards.map((card) => (
-          <Card
-          card={card}
-          key={card._id}
-          onCardClick={onCardClick}
-          onCardLike={onCardLike}
-          onCardDelete={onCardDelete}
-        />
-        ))}
+        {cards.map((card) => {
+          return (
+            <Card
+            card={card}
+            key={card._id}
+            onCardClick={onCardClick}
+            onCardLike={onCardLike}
+            onCardDelete={onCardDelete}
+            />
+          );
+        })}
       </section>
     </main>
   );
