@@ -45,6 +45,6 @@ export const authorize = (password, email) => {
 //   return request({
 //     url: '/users/me',
 //     method: 'GET',
-//     // token,
+//     token,
 //   });
 // };

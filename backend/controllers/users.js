@@ -24,7 +24,8 @@ module.exports.login = (req, res, next) => {
           maxAge: 3600000 * 24 * 7,
           httpOnly: true,
           // domain: 'http://localhost:3000',
-          domain: '.nomoredomains.icu',
+          // domain: '.nomoredomains.icu',
+          domain: 'https://mesto.nabiulin.nomoredomains.icu',
           secure: true,
         })
         .send({ token, message: 'Успешная Авторизация!' });

@@ -210,6 +210,7 @@ function App() {
 
   // Обработчик выхода из аккаунта
   function handleLogout() {
+    setIsLoggedIn(oldState => ({ ...oldState, loggedIn: false }));
     deleteCookie('authorization');
     history.push('/sign-in');
   }
@@ -222,9 +223,9 @@ function App() {
 
     api.getUserInfo()
       .then((userInfo) => {
-        setCurrentUser(userInfo);
         setEmail(userInfo.email); // TODO: Переделать функционал в setCurrentUser
         setIsLoggedIn({ loggedIn: true });
+        setCurrentUser(userInfo);
         // setIsLoading(false); // TODO: сделать крутилку
         history.push('/');
       })
@@ -257,12 +258,26 @@ function App() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Проверка авторизации
-  React.useEffect(() => {
-    if (!isLoggedIn.loggedIn) return;
-    history.push('/')
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLoggedIn.loggedIn]);
+  // React.useEffect(() => {
+  //   // setIsLoading(true); // TODO: сделать крутилку
+  //   const jwt = getCookie('authorization');
+  //   if (!jwt) return;
+
+  //   Promise.all([api.getUserInfo(), api.getInitialCards()])
+  //     .then(([userInfo, cards]) => {
+  //       setEmail(userInfo.email); // TODO: Переделать функционал в setCurrentUser
+  //       setIsLoggedIn({ loggedIn: true });
+  //       setCurrentUser(userInfo);
+  //       setCards(cards);
+  //       // setIsLoading(false); // TODO: сделать крутилку
+  //       history.push('/');
+  //     })
+  //     .catch((err) => {
+  //       // setIsLoading(false); // TODO: сделать крутилку
+  //       console.log(err);
+  //     });
+  // // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   // Загружаем данные о пользователе и начальный массив карточек
   React.useEffect(() => {
@@ -275,6 +290,12 @@ function App() {
       });
   }, []);
 
+  // Проверка авторизации
+  React.useEffect(() => {
+    if (!isLoggedIn.loggedIn) return;
+    history.push('/')
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoggedIn.loggedIn]);
 
   // Возвращаем разметку
   return (
