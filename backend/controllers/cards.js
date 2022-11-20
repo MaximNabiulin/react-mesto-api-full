@@ -4,7 +4,7 @@ const ValidationError = require('../errors/ValidationError');
 const ForbiddenError = require('../errors/ForbiddenError');
 const NotFoundError = require('../errors/NotFoundError');
 
-// const CREATED_STATUS_CODE = 201;
+const CREATED_STATUS_CODE = 201;
 
 module.exports.getCards = async (req, res, next) => {
   try {
@@ -21,10 +21,9 @@ module.exports.createCard = async (req, res, next) => {
   const owner = req.user._id;
 
   try {
-    const card = await Card.create({ name, link, owner })
-      .populate('owner').execPopulate();
-    // return res.status(CREATED_STATUS_CODE).send(card);
-    return res.send(card);
+    const card = await Card.create({ name, link, owner });
+    const currentUserCard = await card.populate('owner');
+    return res.status(CREATED_STATUS_CODE).send(currentUserCard);
   } catch (err) {
     if (err.name === 'ValidationError') {
       return next(new ValidationError('Переданы некорректные данные при создании карточки'));
