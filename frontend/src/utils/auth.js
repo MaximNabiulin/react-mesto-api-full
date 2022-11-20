@@ -1,9 +1,9 @@
 // url для локальной увязки
-// export const baseUrl = 'http://localhost:3001';
+export const baseUrl = 'http://localhost:3001';
 
-export const baseUrl = 'https://api.mesto.nabiulin.nomoredomains.icu';
+// export const baseUrl = 'https://api.mesto.nabiulin.nomoredomains.icu';
 
-// Закоментирован код для прокерки токена, в случае реализации без cookies
+// ---Закоментирован код для прокерки токена, в случае реализации без cookies---
 const request = ({
   url,
   method = 'POST',
@@ -41,10 +41,10 @@ export const authorize = (password, email) => {
   });
 };
 
-export const checkToken = (token) => {
-  return request({
-    url: '/users/me',
-    method: 'GET',
-    // token,
-  });
-};
+// export const checkToken = (token) => {
+//   return request({
+//     url: '/users/me',
+//     method: 'GET',
+//     // token,
+//   });
+// };

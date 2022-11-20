@@ -28,6 +28,16 @@ import InfoTooltip from './InfoTooltip';
 import api from '../utils/api';
 import * as auth from '../utils/auth';
 
+const getCookie = (name) => {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
+}
+
+function deleteCookie(name) {
+  document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
+
 
 function App() {
   // Стейт переменные открытия попапов
@@ -53,18 +63,6 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = React.useState({ loggedIn: false });
   const [email, setEmail] = React.useState('');
   const history = useHistory();
-
-  // Загружаем данные о пользователе и начальный массив карточек
-  React.useEffect(() => {
-    Promise.all([api.getUserInfoFromApi(), api.getInitialCards()])
-      .then(([userInfo, cards]) => {
-        setCurrentUser(userInfo);
-        setCards(cards);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
 
   // --- ОБРАБОТЧИКИ КНОПОК ОТКРЫТИЯ И ЗАКРЫТИЯ ПОПАПОВ ---
 
@@ -187,7 +185,8 @@ function App() {
         }
         history.push('/');
         setEmail(email);
-        localStorage.setItem('jwt', data.token);
+        // localStorage.setItem('jwt', data.token); // вариант без cookies
+        document.cookie = `authorization=${data.token}`;
         setIsLoggedIn(oldState => ({ ...oldState, loggedIn: true }));
       })
       .catch((err) => {
@@ -211,9 +210,52 @@ function App() {
 
   // Обработчик выхода из аккаунта
   function handleLogout() {
-    localStorage.removeItem('jwt');
+    deleteCookie('authorization');
     history.push('/sign-in');
   }
+
+  // Проверка наличия токена
+  React.useEffect(() => {
+    // setIsLoading(true); // TODO: сделать крутилку
+    const jwt = getCookie('authorization');
+    if (!jwt) return;
+
+    api.getUserInfo()
+      .then((userInfo) => {
+        setCurrentUser(userInfo);
+        setEmail(userInfo.email); // TODO: Переделать функционал в setCurrentUser
+        setIsLoggedIn({ loggedIn: true });
+        // setIsLoading(false); // TODO: сделать крутилку
+        history.push('/');
+      })
+      .catch((err) => {
+        // setIsLoading(false); // TODO: сделать крутилку
+        console.log(err);
+      });
+
+    // ---функционал без cookies---
+
+    // function checkToken() {
+      // const jwt = localStorage.getItem('jwt');
+      // auth.checkToken(jwt)
+      //   .then((res) => {
+      //     if (res) {
+      //       setEmail(res.data.email);
+      //       setIsLoggedIn({ loggedIn: true });
+      //       // setIsLoading(false);
+      //       history.push('/');
+      //     }
+      //   })
+      //   .catch((err) => {
+      //     // setIsLoading(false);
+      //     console.log(err)
+      //   });
+    // }
+
+    // checkToken();
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Проверка авторизации
   React.useEffect(() => {
@@ -222,31 +264,17 @@ function App() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoggedIn.loggedIn]);
 
-  // Проверка наличия токена
+  // Загружаем данные о пользователе и начальный массив карточек
   React.useEffect(() => {
-    // setIsLoading(true);
-    function checkToken() {
-      const jwt = localStorage.getItem('jwt');
-      if (!jwt) return;
+    Promise.all([api.getInitialCards()])
+      .then(([cards]) => {
+        setCards(cards);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
-      auth.checkToken(jwt)
-        .then((res) => {
-          if (res) {
-            setEmail(res.data.email);
-            setIsLoggedIn({ loggedIn: true });
-            // setIsLoading(false);
-            history.push('/');
-          }
-        })
-        .catch((err) => {
-          // setIsLoading(false);
-          console.log(err)
-        });
-    }
-
-    checkToken();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   // Возвращаем разметку
   return (

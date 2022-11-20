@@ -21,7 +21,7 @@ class Api {
   // ---- ПОЛЬЗОВАТЕЛЬ -----------------------------
   // 1. Загрузка информации о пользователе с сервера
 
-  getUserInfoFromApi() {
+  getUserInfo() {
     return this._request(`${this._baseUrl}/users/me`, {
       credentials: 'include',
       // headers: this._headers

@@ -23,8 +23,8 @@ module.exports.login = (req, res, next) => {
         .cookie('authorization', token, {
           maxAge: 3600000 * 24 * 7,
           httpOnly: true,
-          // domain: 'http://localhost:3000',
-          domain: '.nomoredomains.icu',
+          domain: 'http://localhost:3000',
+          // domain: '.nomoredomains.icu',
           secure: true,
         })
         .send({ token, message: 'Успешная Авторизация!' });
@@ -32,6 +32,7 @@ module.exports.login = (req, res, next) => {
     .catch(next);
 };
 
+// для тестирования через Postman
 module.exports.logout = (req, res) => {
   res.clearCookie('authorization').send({ message: 'Вы вышли из аккаунта' });
 };
@@ -43,7 +44,7 @@ module.exports.getCurrentUser = async (req, res, next) => {
     if (!user) {
       throw new NotFoundError('Пользователь по указанному id не найден');
     }
-    return res.send({ data: user });
+    return res.send(user);
   } catch (err) {
     if (err.name === 'CastError') {
       return next(new ValidationError('Передан некорректный id пользователя'));
@@ -55,7 +56,7 @@ module.exports.getCurrentUser = async (req, res, next) => {
 module.exports.getUsers = async (req, res, next) => {
   try {
     const users = await User.find({});
-    return res.send({ data: users });
+    return res.send(users);
   } catch (err) {
     return next(err);
   }
@@ -68,7 +69,7 @@ module.exports.getUserById = async (req, res, next) => {
     if (!user) {
       throw new NotFoundError('Пользователь по указанному id не найден');
     }
-    return res.send({ data: user });
+    return res.send(user);
   } catch (err) {
     if (err.name === 'CastError') {
       return next(new ValidationError('Передан некорректный id пользователя'));
@@ -126,7 +127,7 @@ module.exports.updateUserInfo = async (req, res, next) => {
     if (!user) {
       throw new NotFoundError('Пользователь по указанному id не найден');
     }
-    return res.send({ data: user });
+    return res.send(user);
   } catch (err) {
     if (err.name === 'ValidationError') {
       return next(new ValidationError('Переданы некорректные данные при обновлении профиля'));
@@ -148,7 +149,7 @@ module.exports.updateUserAvatar = async (req, res, next) => {
     if (!user) {
       throw new NotFoundError('Пользователь по указанному id не найден');
     }
-    return res.send({ data: user });
+    return res.send(user);
   } catch (err) {
     if (err.name === 'ValidationError') {
       return next(new ValidationError('Переданы некорректные данные при обновлении аватара'));

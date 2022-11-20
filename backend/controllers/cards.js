@@ -8,8 +8,9 @@ const CREATED_STATUS_CODE = 201;
 
 module.exports.getCards = async (req, res, next) => {
   try {
-    const cards = await Card.find({});
-    return res.send({ data: cards });
+    const cards = await Card.find({})
+      .populate(['likes', 'owner']).sort('-createdAt');
+    return res.send(cards);
   } catch (err) {
     return next(err);
   }
@@ -20,13 +21,9 @@ module.exports.createCard = async (req, res, next) => {
   const owner = req.user._id;
 
   try {
-    const card = await Card.create({ name, link, owner });
-    return res.status(CREATED_STATUS_CODE).send({
-      _id: card._id,
-      name: card.name,
-      link: card.link,
-      owner: card.owner,
-    });
+    const card = await Card.create({ name, link, owner })
+      .populate('owner').execPopulate();
+    return res.status(CREATED_STATUS_CODE).send(card);
   } catch (err) {
     if (err.name === 'ValidationError') {
       return next(new ValidationError('Переданы некорректные данные при создании карточки'));
@@ -65,7 +62,8 @@ module.exports.likeCard = async (req, res, next) => {
       cardId,
       { $addToSet: { likes: userId } },
       { new: true },
-    );
+    )
+      .populate(['likes', 'owner']);
     if (!card) {
       throw new NotFoundError('Передан несуществующий id карточки');
     }
@@ -87,7 +85,8 @@ module.exports.dislikeCard = async (req, res, next) => {
       cardId,
       { $pull: { likes: userId } },
       { new: true },
-    );
+    )
+      .populate(['likes', 'owner']);
     if (!card) {
       throw new NotFoundError('Передан несуществующий id карточки');
     }
