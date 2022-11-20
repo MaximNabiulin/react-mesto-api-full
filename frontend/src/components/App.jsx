@@ -258,27 +258,6 @@ function App() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // React.useEffect(() => {
-  //   // setIsLoading(true); // TODO: сделать крутилку
-  //   const jwt = getCookie('authorization');
-  //   if (!jwt) return;
-
-  //   Promise.all([api.getUserInfo(), api.getInitialCards()])
-  //     .then(([userInfo, cards]) => {
-  //       setEmail(userInfo.email); // TODO: Переделать функционал в setCurrentUser
-  //       setIsLoggedIn({ loggedIn: true });
-  //       setCurrentUser(userInfo);
-  //       setCards(cards);
-  //       // setIsLoading(false); // TODO: сделать крутилку
-  //       history.push('/');
-  //     })
-  //     .catch((err) => {
-  //       // setIsLoading(false); // TODO: сделать крутилку
-  //       console.log(err);
-  //     });
-  // // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
-
   // Загружаем данные о пользователе и начальный массив карточек
   React.useEffect(() => {
     Promise.all([api.getInitialCards()])
