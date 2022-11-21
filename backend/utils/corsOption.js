@@ -6,7 +6,5 @@ module.exports.corsOptions = {
     'http://mesto.nabiulin.nomoredomains.icu',
     'https://mesto.nabiulin.nomoredomains.icu',
   ],
-  // optionsSuccessStatus: 200,
-  allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
 };

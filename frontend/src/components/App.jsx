@@ -28,11 +28,11 @@ import InfoTooltip from './InfoTooltip';
 import api from '../utils/api';
 import * as auth from '../utils/auth';
 
-const getCookie = (name) => {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(';').shift();
-}
+// const getCookie = (name) => {
+//   const value = `; ${document.cookie}`;
+//   const parts = value.split(`; ${name}=`);
+//   if (parts.length === 2) return parts.pop().split(';').shift();
+// }
 
 function deleteCookie(name) {
   document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
@@ -176,6 +176,18 @@ function App() {
 
   // --- АУТЕНТИФИКАЦИЯ ---
 
+  // Обработчик проверки токена
+  function handleCheckToken() {
+    return auth.checkToken()
+      .then(() => {
+        setIsLoggedIn(oldState => ({ ...oldState, loggedIn: true }));
+        history.push('/');
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  }
+
   // Обработчик авторизации
   function handleLogin(password, email) {
     return auth.authorize(password, email)
@@ -183,17 +195,16 @@ function App() {
         if (!data.token) {
           return Promise.reject(`Ошибка: ${data.status}`);
         }
-        history.push('/');
-        setEmail(email);
         // localStorage.setItem('jwt', data.token); // вариант без cookies
-        // document.cookie = `authorization=${data.token}`;
-        setIsLoggedIn(oldState => ({ ...oldState, loggedIn: true }));
+        document.cookie = `authorization=${data.token}`;
+        handleCheckToken();
+        setEmail(email);
       })
       .catch((err) => {
         console.log(err);
         setIsErrorTooltipOpen(true);
       })
-  };
+  }
 
   // Обработчик регистрации
   function handleRegister(password, email) {
@@ -216,83 +227,25 @@ function App() {
   }
 
   // Проверка наличия токена
+
   React.useEffect(() => {
-    // setIsLoading(true); // TODO: сделать крутилку
-    const jwt = getCookie('authorization');
-    if (!jwt) return;
-
-    api.getUserInfo()
-      .then((userInfo) => {
-        setEmail(userInfo.email); // TODO: Переделать функционал в setCurrentUser
-        setIsLoggedIn({ loggedIn: true });
-        setCurrentUser(userInfo);
-        // setIsLoading(false); // TODO: сделать крутилку
-        history.push('/');
-      })
-      .catch((err) => {
-        // setIsLoading(false); // TODO: сделать крутилку
-        console.log(err);
-      });
-
-    // ---функционал без cookies---
-
-    // function checkToken() {
-      // const jwt = localStorage.getItem('jwt');
-      // auth.checkToken(jwt)
-      //   .then((res) => {
-      //     if (res) {
-      //       setEmail(res.data.email);
-      //       setIsLoggedIn({ loggedIn: true });
-      //       // setIsLoading(false);
-      //       history.push('/');
-      //     }
-      //   })
-      //   .catch((err) => {
-      //     // setIsLoading(false);
-      //     console.log(err)
-      //   });
-    // }
-
-    // checkToken();
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // setIsLoading(false);
+    handleCheckToken();
+    // eslint-disable-next-line
   }, []);
 
-  // React.useEffect(() => {
-  //   // setIsLoading(true); // TODO: сделать крутилку
-  //   const jwt = getCookie('authorization');
-  //   if (!jwt) return;
-
-  //   Promise.all([api.getUserInfo(), api.getInitialCards()])
-  //     .then(([userInfo, cards]) => {
-  //       setEmail(userInfo.email); // TODO: Переделать функционал в setCurrentUser
-  //       setIsLoggedIn({ loggedIn: true });
-  //       setCurrentUser(userInfo);
-  //       setCards(cards);
-  //       // setIsLoading(false); // TODO: сделать крутилку
-  //       history.push('/');
-  //     })
-  //     .catch((err) => {
-  //       // setIsLoading(false); // TODO: сделать крутилку
-  //       console.log(err);
-  //     });
-  // // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
-
-  // Загружаем данные о пользователе и начальный массив карточек
-  React.useEffect(() => {
-    Promise.all([api.getInitialCards()])
-      .then(([cards]) => {
-        setCards(cards);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-
-  // Проверка авторизации
+  // Проверяем авторизацию, загружаем данные о пользователе и начальный массив карточек
   React.useEffect(() => {
     if (!isLoggedIn.loggedIn) return;
+    Promise.all([api.getUserInfo(), api.getInitialCards()])
+    .then(([userInfo, cards]) => {
+      setEmail(userInfo.email);
+      setCurrentUser(userInfo);
+      setCards(cards);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
     history.push('/')
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoggedIn.loggedIn]);
