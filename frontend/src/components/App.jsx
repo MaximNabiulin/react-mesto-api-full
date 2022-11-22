@@ -196,9 +196,8 @@ function App() {
           return Promise.reject(`Ошибка: ${data.status}`);
         }
         // localStorage.setItem('jwt', data.token); // вариант без cookies
-        document.cookie = `authorization=${data.token}`;
         handleCheckToken();
-        setEmail(email);
+        setEmail(data.email);
       })
       .catch((err) => {
         console.log(err);
@@ -219,7 +218,6 @@ function App() {
       })
   };
 
-  // Обработчик выхода из аккаунта
   function handleLogout() {
     setIsLoggedIn(oldState => ({ ...oldState, loggedIn: false }));
     deleteCookie('authorization');

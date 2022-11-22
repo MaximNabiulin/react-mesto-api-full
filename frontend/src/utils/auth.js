@@ -12,11 +12,11 @@ const request = ({
 }) => {
   return fetch (`${baseUrl}${url}`, {
     method,
+    credentials: 'include', // в случае использования cookies
     headers: {
       'Content-Type': 'application/json',
       // ...!!token && { 'Authorization': `Bearer ${token}` },
     },
-    credentials: 'include', // в случае использования cookies
     ...!!data && {body: JSON.stringify(data)},
   })
     .then((response) => {
@@ -38,6 +38,14 @@ export const authorize = (password, email) => {
   return request({
     url: '/signin',
     data: { password, email }
+  });
+};
+
+export const logout = () => {
+  return request({
+    url: '/signout',
+    method: 'GET',
+    // data: { email }
   });
 };
 
