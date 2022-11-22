@@ -29,7 +29,7 @@ router.post('/signup', celebrate({
   }),
 }), createUser);
 
-router.get('/signout', auth, logout); // для тестирования через Postman
+router.delete('/signout', auth, logout); // для тестирования через Postman
 router.use('/users', auth, require('./users'));
 router.use('/cards', auth, require('./cards'));
 

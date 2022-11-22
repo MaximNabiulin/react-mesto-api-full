@@ -119,8 +119,8 @@ const api = new Api({
   baseUrl: baseUrl,
   // credentials: 'include',
   // headers: {
-  //   authorization: '9fd8f809-2b73-494b-91df-a3deb101ee29',
-  //   'Content-Type': 'application/json'
+  //   'Content-Type': 'application/json',
+  //   authorization: `Bearer ${localStorage.getItem('jwt')}`,
   // }
 });
 

@@ -37,6 +37,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(helmet());
 app.use(limiter);
 app.use(requestLogger);
+// app.use(cors());
 app.use(cors(corsOptions));
 
 app.use(routes);

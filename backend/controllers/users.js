@@ -24,7 +24,7 @@ module.exports.login = (req, res, next) => {
           maxAge: 3600000 * 24 * 7,
           httpOnly: true,
           // domain: 'localhost:3000',
-          domain: 'mesto.nabiulin.nomoredomains.icu',
+          // domain: 'mesto.nabiulin.nomoredomains.icu',
           secure: true,
         })
         .send({ token, message: 'Успешная Авторизация!' });
@@ -34,7 +34,12 @@ module.exports.login = (req, res, next) => {
 
 // для тестирования через Postman
 module.exports.logout = (req, res) => {
-  res.clearCookie('authorization').send({ message: 'Вы вышли из аккаунта' });
+  res
+    .clearCookie('authorization', {
+      httpOnly: true,
+      secure: true,
+    })
+    .send({ message: 'Вы вышли из аккаунта' });
 };
 
 module.exports.getCurrentUser = async (req, res, next) => {

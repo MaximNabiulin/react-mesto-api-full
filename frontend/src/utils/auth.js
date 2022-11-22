@@ -1,7 +1,7 @@
 // url для локальной увязки
-// export const baseUrl = 'http://localhost:3001';
+export const baseUrl = 'http://localhost:3001';
 
-export const baseUrl = 'https://api.mesto.nabiulin.nomoredomains.icu';
+// export const baseUrl = 'https://api.mesto.nabiulin.nomoredomains.icu';
 
 // ---Закоментирован код для прокерки токена, в случае реализации без cookies---
 const request = ({
@@ -44,8 +44,7 @@ export const authorize = (password, email) => {
 export const logout = () => {
   return request({
     url: '/signout',
-    method: 'GET',
-    // data: { email }
+    method: 'DELETE',
   });
 };
 
