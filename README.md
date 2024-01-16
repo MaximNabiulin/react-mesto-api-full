@@ -3,10 +3,6 @@
 Это учебный проект в рамках курса **Веб-Разработчик** на платформе [Яндекс Практикум](https://practicum.yandex.ru/).
 Это завершающий этап создания интерактивного сервиса просмотра карточек с фотографиями, включающего в себя **фронтенд** и **бэкенд**, в котором можно регистрировать и авторизировать пользователя, редактировать его данные, а также можно просматривать фотографии других пользователей, ставить лайки, добавлять свои фотографии и удалять их. Ссылка на репозиторий проекта: [https://github.com/MaximNabiulin/react-mesto-api-full](https://github.com/MaximNabiulin/react-mesto-api-full).
 
-* Публичный IP: 130.193.48.76
-* Бэкенд сайта: [api.mesto.nabiulin.nomoredomains.icu](api.mesto.nabiulin.nomoredomains.icu)
-* Фронтенд сайта: [mesto.nabiulin.nomoredomains.icu](mesto.nabiulin.nomoredomains.icu)
-
 ## Фронтенд
 ------
 
